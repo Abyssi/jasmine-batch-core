@@ -1,0 +1,123 @@
+{"year":2016,"month":7,"country":"Israel","metrics":{"mean":301.63633669888,"stdev":4.917747268951953,"min":288.111,"max":315.15}}
+{"year":2017,"month":5,"country":"United States","metrics":{"mean":291.70287933094306,"stdev":6.83654048517458,"min":273.14,"max":314.02}}
+{"year":2017,"month":8,"country":"Israel","metrics":{"mean":302.0365808691767,"stdev":4.5402342399468925,"min":286.331,"max":315.66}}
+{"year":2014,"month":5,"country":"United States","metrics":{"mean":292.10636348203064,"stdev":6.792385911479191,"min":265.884,"max":313.96}}
+{"year":2016,"month":4,"country":"Israel","metrics":{"mean":295.3316679037326,"stdev":5.69118446271693,"min":279.987,"max":312.15}}
+{"year":2014,"month":5,"country":"Israel","metrics":{"mean":295.24112070047966,"stdev":4.944587605289371,"min":281.627,"max":312.15}}
+{"year":2014,"month":12,"country":"Israel","metrics":{"mean":287.73106328384193,"stdev":4.740688440129948,"min":274.423,"max":305.15}}
+{"year":2016,"month":11,"country":"United States","metrics":{"mean":285.51346543944186,"stdev":7.262774132073693,"min":264.56,"max":307.96}}
+{"year":2014,"month":1,"country":"United States","metrics":{"mean":277.5288930214775,"stdev":10.720854804540595,"min":246.1075,"max":308.15}}
+{"year":2015,"month":7,"country":"Israel","metrics":{"mean":301.5602971921851,"stdev":5.29745479643567,"min":283.848,"max":317.15}}
+{"year":2016,"month":8,"country":"Israel","metrics":{"mean":302.24179479227286,"stdev":4.095820971556586,"min":288.325,"max":315.77}}
+{"year":2016,"month":6,"country":"Israel","metrics":{"mean":301.5275556691108,"stdev":5.211013128784804,"min":284.048,"max":318.66}}
+{"year":2013,"month":2,"country":"Israel","metrics":{"mean":288.3893188450738,"stdev":3.897561744730226,"min":278.15,"max":307.04}}
+{"year":2016,"month":6,"country":"United States","metrics":{"mean":296.9568027942266,"stdev":6.464974416931131,"min":278.99,"max":321.22}}
+{"year":2014,"month":6,"country":"Israel","metrics":{"mean":298.0619556905257,"stdev":5.617570272089287,"min":285.116,"max":319.48}}
+{"year":2015,"month":4,"country":"Israel","metrics":{"mean":290.0203029840297,"stdev":4.46657862672614,"min":276.984,"max":307.246}}
+{"year":2015,"month":5,"country":"United States","metrics":{"mean":291.29593762999025,"stdev":6.30784744455548,"min":266.321333333,"max":309.336}}
+{"year":2016,"month":12,"country":"United States","metrics":{"mean":278.9636169700385,"stdev":8.957211000282696,"min":243.39,"max":303.4}}
+{"year":2015,"month":2,"country":"United States","metrics":{"mean":275.31052122908375,"stdev":10.79861396971302,"min":243.483333333,"max":303.181}}
+{"year":2017,"month":9,"country":"Israel","metrics":{"mean":300.44320946399495,"stdev":4.319433291057898,"min":286.273,"max":315.15}}
+{"year":2015,"month":12,"country":"United States","metrics":{"mean":281.9511147171559,"stdev":7.732213463457825,"min":256.130423071,"max":305.15}}
+{"year":2016,"month":9,"country":"United States","metrics":{"mean":295.1356542690248,"stdev":6.1140021344082065,"min":274.13,"max":312.95}}
+{"year":2015,"month":4,"country":"United States","metrics":{"mean":286.91707937425554,"stdev":6.963804978293572,"min":265.087333333,"max":306.831666667}}
+{"year":2015,"month":5,"country":"Israel","metrics":{"mean":294.29631262645097,"stdev":5.0795311730808175,"min":280.509,"max":310.179}}
+{"year":2013,"month":6,"country":"Israel","metrics":{"mean":298.3341958371922,"stdev":5.186392354017369,"min":285.151,"max":318.91}}
+{"year":2014,"month":1,"country":"Israel","metrics":{"mean":286.2696997090365,"stdev":4.101547972464618,"min":277.352333333,"max":301.15}}
+{"year":2012,"month":10,"country":"Israel","metrics":{"mean":298.88201728340556,"stdev":3.9600673006803597,"min":289.15,"max":314.82}}
+{"year":2014,"month":8,"country":"United States","metrics":{"mean":296.600498475129,"stdev":5.321431799253253,"min":279.064,"max":316.32}}
+{"year":2013,"month":8,"country":"United States","metrics":{"mean":296.89514126711623,"stdev":5.815030256896692,"min":281.15,"max":317.55}}
+{"year":2016,"month":10,"country":"United States","metrics":{"mean":289.6399570606438,"stdev":6.938463824176188,"min":266.505,"max":308.63}}
+{"year":2017,"month":10,"country":"Israel","metrics":{"mean":296.8844901500178,"stdev":4.500501506055264,"min":282.505,"max":313.15}}
+{"year":2017,"month":11,"country":"United States","metrics":{"mean":283.9287116094384,"stdev":7.708950577482157,"min":260.95,"max":306.47}}
+{"year":2013,"month":4,"country":"United States","metrics":{"mean":286.7097948302476,"stdev":7.632815755170387,"min":259.27,"max":309.88}}
+{"year":2014,"month":7,"country":"United States","metrics":{"mean":297.4479773515933,"stdev":5.687961176329746,"min":282.578333333,"max":317.65}}
+{"year":2017,"month":8,"country":"United States","metrics":{"mean":297.0530121963379,"stdev":5.652637239911109,"min":283.04,"max":315.7}}
+{"year":2015,"month":8,"country":"Israel","metrics":{"mean":303.6052297348314,"stdev":4.963131405895374,"min":288.787,"max":319.15}}
+{"year":2014,"month":3,"country":"Israel","metrics":{"mean":289.68853325482365,"stdev":3.7401323852794524,"min":278.04,"max":304.15}}
+{"year":2016,"month":4,"country":"United States","metrics":{"mean":287.8610437954835,"stdev":7.436799572890453,"min":264.62,"max":310.23}}
+{"year":2012,"month":10,"country":"United States","metrics":{"mean":288.9809474083453,"stdev":7.020956914443005,"min":268.87,"max":312.01}}
+{"year":2016,"month":2,"country":"United States","metrics":{"mean":280.7229575667034,"stdev":8.981278932308333,"min":249.54,"max":304.68}}
+{"year":2016,"month":11,"country":"Israel","metrics":{"mean":293.015555841212,"stdev":4.611574489211921,"min":275.68,"max":305.42}}
+{"year":2015,"month":6,"country":"United States","metrics":{"mean":295.72482842801514,"stdev":6.128127284085348,"min":279.216,"max":316.3}}
+{"year":2015,"month":11,"country":"Israel","metrics":{"mean":293.10697077747676,"stdev":4.051379034032223,"min":280.931,"max":305.15}}
+{"year":2013,"month":7,"country":"United States","metrics":{"mean":297.55071552001726,"stdev":5.809713916525913,"min":281.01,"max":319.83}}
+{"year":2014,"month":6,"country":"United States","metrics":{"mean":295.81296739642875,"stdev":5.945882598982716,"min":277.4,"max":314.92}}
+{"year":2015,"month":9,"country":"United States","metrics":{"mean":295.61463273938074,"stdev":6.106608866078559,"min":276.57,"max":313.18}}
+{"year":2013,"month":1,"country":"United States","metrics":{"mean":278.0736056393541,"stdev":8.994045672450778,"min":246.47,"max":300.6}}
+{"year":2013,"month":2,"country":"United States","metrics":{"mean":278.72376583076004,"stdev":8.595554311220425,"min":244.82,"max":301.86}}
+{"year":2017,"month":7,"country":"Israel","metrics":{"mean":302.6768092105904,"stdev":4.646857321269649,"min":286.876,"max":320.15}}
+{"year":2016,"month":1,"country":"Israel","metrics":{"mean":286.0155703823438,"stdev":4.555554017905414,"min":271.15,"max":299.29}}
+{"year":2014,"month":10,"country":"United States","metrics":{"mean":288.7231296792416,"stdev":6.622146974008603,"min":266.155333333,"max":307.412333333}}
+{"year":2013,"month":9,"country":"United States","metrics":{"mean":294.4203792348338,"stdev":6.512609432443114,"min":271.912,"max":315.95}}
+{"year":2015,"month":3,"country":"Israel","metrics":{"mean":289.0873564197406,"stdev":4.716339023156173,"min":275.172,"max":309.68}}
+{"year":2015,"month":6,"country":"Israel","metrics":{"mean":297.2492516715421,"stdev":5.0435537617631,"min":283.171,"max":315.13}}
+{"year":2013,"month":8,"country":"Israel","metrics":{"mean":299.6482675851255,"stdev":5.097549834366632,"min":286.209,"max":315.15}}
+{"year":2015,"month":8,"country":"United States","metrics":{"mean":297.67474209665664,"stdev":5.849656034784593,"min":281.42,"max":318.11}}
+{"year":2013,"month":4,"country":"Israel","metrics":{"mean":292.13821703806906,"stdev":5.540323358319969,"min":279.82,"max":311.03}}
+{"year":2014,"month":4,"country":"United States","metrics":{"mean":287.5294316690572,"stdev":7.412677114097236,"min":265.19,"max":308.83}}
+{"year":2017,"month":1,"country":"Israel","metrics":{"mean":285.67701568100387,"stdev":4.076261451269938,"min":272.869,"max":296.66}}
+{"year":2015,"month":7,"country":"United States","metrics":{"mean":297.99527255982497,"stdev":5.536005916565624,"min":283.72,"max":316.34}}
+{"year":2014,"month":7,"country":"Israel","metrics":{"mean":299.7950282120803,"stdev":5.025536759397136,"min":287.569,"max":317.15}}
+{"year":2014,"month":11,"country":"Israel","metrics":{"mean":289.9781555419157,"stdev":4.89069223035219,"min":275.299,"max":304.15}}
+{"year":2017,"month":4,"country":"Israel","metrics":{"mean":293.13823935219256,"stdev":5.217129395764326,"min":278.785,"max":313.15}}
+{"year":2013,"month":9,"country":"Israel","metrics":{"mean":297.8953166242287,"stdev":4.722496796526798,"min":284.629,"max":313.15}}
+{"year":2015,"month":2,"country":"Israel","metrics":{"mean":284.96150104390836,"stdev":4.230300132967521,"min":273.798,"max":298.21}}
+{"year":2016,"month":10,"country":"Israel","metrics":{"mean":296.09730038711206,"stdev":4.943352138721894,"min":283.635,"max":316.48}}
+{"year":2012,"month":12,"country":"United States","metrics":{"mean":280.7485313537131,"stdev":7.852999738724395,"min":253.87,"max":302.04}}
+{"year":2017,"month":7,"country":"United States","metrics":{"mean":298.4287307217769,"stdev":5.620793555827027,"min":282.36,"max":319.16}}
+{"year":2017,"month":3,"country":"Israel","metrics":{"mean":289.7645458768795,"stdev":4.12358593564343,"min":278.044,"max":305.12}}
+{"year":2017,"month":6,"country":"United States","metrics":{"mean":296.4269471188242,"stdev":6.195888202839458,"min":279.15,"max":321.15}}
+{"year":2016,"month":8,"country":"United States","metrics":{"mean":297.95238655151604,"stdev":5.641561797139909,"min":281.41,"max":316.83}}
+{"year":2012,"month":12,"country":"Israel","metrics":{"mean":289.480900948327,"stdev":3.6111467982918817,"min":277.98,"max":309.26}}
+{"year":2014,"month":11,"country":"United States","metrics":{"mean":280.1889813989046,"stdev":8.397720252817638,"min":247.727666667,"max":302.692}}
+{"year":2013,"month":3,"country":"Israel","metrics":{"mean":290.27229695915815,"stdev":5.183149194986465,"min":276.48,"max":308.03}}
+{"year":2015,"month":1,"country":"United States","metrics":{"mean":275.60782063642677,"stdev":9.061496227531757,"min":242.336666667,"max":301.678333333}}
+{"year":2015,"month":3,"country":"United States","metrics":{"mean":281.8929790348956,"stdev":9.1392575109575,"min":246.615,"max":304.484333333}}
+{"year":2014,"month":10,"country":"Israel","metrics":{"mean":294.87881484456165,"stdev":5.431076610618013,"min":279.633,"max":312.15}}
+{"year":2013,"month":10,"country":"Israel","metrics":{"mean":293.0562873340789,"stdev":5.515016218861979,"min":280.368,"max":310.15}}
+{"year":2013,"month":7,"country":"Israel","metrics":{"mean":299.16230352449145,"stdev":4.53978091939061,"min":287.093,"max":314.15}}
+{"year":2015,"month":10,"country":"Israel","metrics":{"mean":298.75189421016023,"stdev":5.125046851724894,"min":283.658,"max":313.81}}
+{"year":2013,"month":3,"country":"United States","metrics":{"mean":281.2549579569469,"stdev":8.158942630672055,"min":257.0,"max":307.34}}
+{"year":2015,"month":9,"country":"Israel","metrics":{"mean":302.7119432951772,"stdev":4.781066158013729,"min":288.564,"max":320.93}}
+{"year":2017,"month":6,"country":"Israel","metrics":{"mean":299.55491634590464,"stdev":4.985743692531033,"min":284.423,"max":317.66}}
+{"year":2016,"month":5,"country":"United States","metrics":{"mean":291.3115873050863,"stdev":6.530328614877205,"min":270.25,"max":311.69}}
+{"year":2017,"month":4,"country":"United States","metrics":{"mean":289.0355662892142,"stdev":6.928837184522286,"min":268.85,"max":309.43}}
+{"year":2014,"month":4,"country":"Israel","metrics":{"mean":292.5437648611118,"stdev":4.022849274331542,"min":281.335,"max":307.15}}
+{"year":2017,"month":2,"country":"Israel","metrics":{"mean":285.91812027712564,"stdev":5.120758412747322,"min":271.049,"max":303.15}}
+{"year":2014,"month":8,"country":"Israel","metrics":{"mean":300.69419201343135,"stdev":5.480254410384118,"min":286.991,"max":317.15}}
+{"year":2016,"month":5,"country":"Israel","metrics":{"mean":298.24836974215896,"stdev":5.7730595991355,"min":281.907,"max":317.12}}
+{"year":2013,"month":5,"country":"United States","metrics":{"mean":291.6967812624452,"stdev":6.752389597894461,"min":267.79,"max":311.41}}
+{"year":2014,"month":9,"country":"United States","metrics":{"mean":293.62765563832795,"stdev":6.025074720266039,"min":271.170333333,"max":311.889}}
+{"year":2016,"month":12,"country":"Israel","metrics":{"mean":286.51280178653604,"stdev":3.8976915882227456,"min":274.587,"max":297.78}}
+{"year":2015,"month":12,"country":"Israel","metrics":{"mean":287.7233047314134,"stdev":4.652419294830542,"min":273.203,"max":303.7}}
+{"year":2014,"month":2,"country":"United States","metrics":{"mean":277.70263424854016,"stdev":10.581461402505049,"min":247.13,"max":302.91}}
+{"year":2013,"month":10,"country":"United States","metrics":{"mean":288.29928083188304,"stdev":7.333982899424393,"min":263.745,"max":313.75}}
+{"year":2013,"month":11,"country":"Israel","metrics":{"mean":290.02234224537085,"stdev":5.527595448967281,"min":280.368,"max":305.67}}
+{"year":2012,"month":11,"country":"United States","metrics":{"mean":283.4266558642002,"stdev":7.291201681752457,"min":259.78,"max":306.01}}
+{"year":2017,"month":10,"country":"United States","metrics":{"mean":290.22296605960605,"stdev":7.4799397495125,"min":265.97,"max":312.52}}
+{"year":2016,"month":2,"country":"Israel","metrics":{"mean":288.90001107990355,"stdev":5.229389303968222,"min":274.96,"max":305.15}}
+{"year":2015,"month":11,"country":"United States","metrics":{"mean":284.60293414185804,"stdev":7.5723661061142735,"min":259.53,"max":304.47}}
+{"year":2017,"month":3,"country":"United States","metrics":{"mean":284.155899492741,"stdev":8.804546849569888,"min":257.15,"max":307.29}}
+{"year":2012,"month":11,"country":"Israel","metrics":{"mean":294.26384722222247,"stdev":4.111474667843099,"min":283.15,"max":312.59}}
+{"year":2013,"month":12,"country":"Israel","metrics":{"mean":286.39129681899686,"stdev":4.807095253697737,"min":272.59,"max":303.51}}
+{"year":2017,"month":9,"country":"United States","metrics":{"mean":295.01790989155427,"stdev":6.232993105973573,"min":279.15,"max":314.95}}
+{"year":2013,"month":5,"country":"Israel","metrics":{"mean":296.7119787933099,"stdev":5.026781707375421,"min":283.71,"max":316.91}}
+{"year":2017,"month":2,"country":"United States","metrics":{"mean":282.068811880366,"stdev":8.409691834642835,"min":255.09,"max":305.54}}
+{"year":2014,"month":2,"country":"Israel","metrics":{"mean":286.6505250692928,"stdev":4.7203111436337695,"min":274.754820495,"max":304.69}}
+{"year":2016,"month":3,"country":"Israel","metrics":{"mean":291.06246937628407,"stdev":4.508427158584597,"min":278.266,"max":307.15}}
+{"year":2016,"month":9,"country":"Israel","metrics":{"mean":301.0289978807126,"stdev":4.658737571144936,"min":284.667,"max":314.15}}
+{"year":2016,"month":7,"country":"United States","metrics":{"mean":298.83849182061743,"stdev":6.042250922468516,"min":282.144,"max":317.95}}
+{"year":2015,"month":1,"country":"Israel","metrics":{"mean":283.7628846694741,"stdev":4.354154813090766,"min":268.682,"max":296.19}}
+{"year":2014,"month":3,"country":"United States","metrics":{"mean":281.5825814864683,"stdev":9.136027557761627,"min":246.52,"max":306.37}}
+{"year":2013,"month":11,"country":"United States","metrics":{"mean":282.8367891649926,"stdev":8.083597454759262,"min":256.35,"max":306.15}}
+{"year":2013,"month":12,"country":"United States","metrics":{"mean":278.43288005277117,"stdev":9.481886264310399,"min":245.982,"max":307.15}}
+{"year":2017,"month":5,"country":"Israel","metrics":{"mean":296.6808555107531,"stdev":5.210431433229528,"min":280.891,"max":314.17}}
+{"year":2015,"month":10,"country":"United States","metrics":{"mean":289.7468970363455,"stdev":6.8999425422106775,"min":269.246,"max":313.16}}
+{"year":2016,"month":1,"country":"United States","metrics":{"mean":277.28489323032346,"stdev":8.348602973511678,"min":246.143557431,"max":301.51}}
+{"year":2013,"month":1,"country":"Israel","metrics":{"mean":286.92124248805254,"stdev":3.910645976279929,"min":271.15,"max":303.15}}
+{"year":2013,"month":6,"country":"United States","metrics":{"mean":296.11245488425845,"stdev":6.294800195907394,"min":278.22,"max":318.34}}
+{"year":2014,"month":9,"country":"Israel","metrics":{"mean":298.8227332784655,"stdev":5.242437051931711,"min":285.191,"max":315.18}}
+{"year":2016,"month":3,"country":"United States","metrics":{"mean":285.2690361658424,"stdev":7.531842509264352,"min":262.24,"max":305.43}}
+{"year":2014,"month":12,"country":"United States","metrics":{"mean":278.80649071603,"stdev":7.758570735755671,"min":246.344333333,"max":302.647}}
+{"year":2017,"month":1,"country":"United States","metrics":{"mean":279.2191718438875,"stdev":8.826668492503938,"min":248.66,"max":302.26}}
