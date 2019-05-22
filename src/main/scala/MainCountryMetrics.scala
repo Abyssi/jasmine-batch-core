@@ -1,10 +1,10 @@
 import connectors.LocalAvroReader
-import model.{CityCountryValueSampleParser, CityDescriptionSampleParser}
+import model.CityCountryValueSampleParser
 import org.apache.spark.{SparkConf, SparkContext}
-import queries.{ClearCitiesQuery, CountryMetricsQuery, MaxDiffCountriesQuery}
+import queries.CountryMetricsQuery
 import utils.DateUtils
 
-object Main {
+object MainCountryMetrics {
 
   /**
     * main function
@@ -51,19 +51,6 @@ object Main {
       .map(CityCountryValueSampleParser.FromStringTuple)
       .cache()
 
-    val weatherDescriptionInput = new LocalAvroReader()
-      .load(spark, inputBasePath + "avro/weather_description.avro") // [datetime, city, value]
-      .map(item => (item.get(1).toString, (item.get(0).toString, item.get(2).toString))) //map to (city, (datetime, value))
-      .join(attributesInput) // join them
-      .map({ case (city, ((datetime, value), (_, offset))) => (DateUtils.reformatWithTimezone(datetime, offset), city, value) }) // map to [dateTime+offset, city, value]
-      .map(CityDescriptionSampleParser.FromStringTuple)
-      .cache()
-
-    val clearCitiesOutputPath = outputBasePath + "clear_cities"
-    val clearCitiesOutput = ClearCitiesQuery.run(weatherDescriptionInput)
-    clearCitiesOutput.foreach(println)
-    clearCitiesOutput.map(_.toJsonString).coalesce(1).saveAsTextFile(clearCitiesOutputPath)
-
     val humidityCountryMetricsOutputPath = outputBasePath + "humidity_country_metrics"
     val humidityCountryMetricsOutput = CountryMetricsQuery.run(humidityInput)
     humidityCountryMetricsOutput.foreach(println)
@@ -78,11 +65,6 @@ object Main {
     val temperatureCountryMetricsOutput = CountryMetricsQuery.run(temperatureInput)
     temperatureCountryMetricsOutput.foreach(println)
     temperatureCountryMetricsOutput.map(_.toJsonString).coalesce(1).saveAsTextFile(temperatureCountryMetricsOutputPath)
-
-    val maxDiffCountriesOutputPath = outputBasePath + "max_diff_countries"
-    val maxDiffCountriesOutput = MaxDiffCountriesQuery.run(temperatureInput)
-    maxDiffCountriesOutput.foreach(println)
-    maxDiffCountriesOutput.map(_.toJsonString).coalesce(1).saveAsTextFile(maxDiffCountriesOutputPath)
 
     spark.stop()
   }
