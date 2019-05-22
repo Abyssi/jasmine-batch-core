@@ -54,17 +54,17 @@ object MainCountryMetrics {
     val humidityCountryMetricsOutputPath = outputBasePath + "humidity_country_metrics"
     val humidityCountryMetricsOutput = CountryMetricsQuery.run(humidityInput)
     humidityCountryMetricsOutput.foreach(println)
-    humidityCountryMetricsOutput.map(_.toJsonString).coalesce(1).saveAsTextFile(humidityCountryMetricsOutputPath)
+    humidityCountryMetricsOutput.map(_.toJsonString).saveAsTextFile(humidityCountryMetricsOutputPath)
 
     val pressureCountryMetricsOutputPath = outputBasePath + "pressure_country_metrics"
     val pressureCountryMetricsOutput = CountryMetricsQuery.run(pressureInput)
     pressureCountryMetricsOutput.foreach(println)
-    pressureCountryMetricsOutput.map(_.toJsonString).coalesce(1).saveAsTextFile(pressureCountryMetricsOutputPath)
+    pressureCountryMetricsOutput.map(_.toJsonString).saveAsTextFile(pressureCountryMetricsOutputPath)
 
     val temperatureCountryMetricsOutputPath = outputBasePath + "temperature_country_metrics"
     val temperatureCountryMetricsOutput = CountryMetricsQuery.run(temperatureInput)
     temperatureCountryMetricsOutput.foreach(println)
-    temperatureCountryMetricsOutput.map(_.toJsonString).coalesce(1).saveAsTextFile(temperatureCountryMetricsOutputPath)
+    temperatureCountryMetricsOutput.map(_.toJsonString).saveAsTextFile(temperatureCountryMetricsOutputPath)
 
     spark.stop()
   }

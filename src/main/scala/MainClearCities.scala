@@ -38,7 +38,7 @@ object MainClearCities {
     val clearCitiesOutputPath = outputBasePath + "clear_cities"
     val clearCitiesOutput = ClearCitiesQuery.run(weatherDescriptionInput)
     clearCitiesOutput.foreach(println)
-    clearCitiesOutput.map(_.toJsonString).coalesce(1).saveAsTextFile(clearCitiesOutputPath)
+    clearCitiesOutput.map(_.toJsonString).saveAsTextFile(clearCitiesOutputPath)
 
     spark.stop()
   }

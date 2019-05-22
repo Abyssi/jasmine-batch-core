@@ -62,27 +62,28 @@ object Main {
     val clearCitiesOutputPath = outputBasePath + "clear_cities"
     val clearCitiesOutput = ClearCitiesQuery.run(weatherDescriptionInput)
     clearCitiesOutput.foreach(println)
-    clearCitiesOutput.map(_.toJsonString).coalesce(1).saveAsTextFile(clearCitiesOutputPath)
+    clearCitiesOutput.map(_.toJsonString).saveAsTextFile(clearCitiesOutputPath)
 
     val humidityCountryMetricsOutputPath = outputBasePath + "humidity_country_metrics"
     val humidityCountryMetricsOutput = CountryMetricsQuery.run(humidityInput)
     humidityCountryMetricsOutput.foreach(println)
-    humidityCountryMetricsOutput.map(_.toJsonString).coalesce(1).saveAsTextFile(humidityCountryMetricsOutputPath)
+    humidityCountryMetricsOutput.map(_.toJsonString).saveAsTextFile(humidityCountryMetricsOutputPath)
+    humidityCountryMetricsOutput.map(_.toJsonString).saveAsTextFile(humidityCountryMetricsOutputPath)
 
     val pressureCountryMetricsOutputPath = outputBasePath + "pressure_country_metrics"
     val pressureCountryMetricsOutput = CountryMetricsQuery.run(pressureInput)
     pressureCountryMetricsOutput.foreach(println)
-    pressureCountryMetricsOutput.map(_.toJsonString).coalesce(1).saveAsTextFile(pressureCountryMetricsOutputPath)
+    pressureCountryMetricsOutput.map(_.toJsonString).saveAsTextFile(pressureCountryMetricsOutputPath)
 
     val temperatureCountryMetricsOutputPath = outputBasePath + "temperature_country_metrics"
     val temperatureCountryMetricsOutput = CountryMetricsQuery.run(temperatureInput)
     temperatureCountryMetricsOutput.foreach(println)
-    temperatureCountryMetricsOutput.map(_.toJsonString).coalesce(1).saveAsTextFile(temperatureCountryMetricsOutputPath)
+    temperatureCountryMetricsOutput.map(_.toJsonString).saveAsTextFile(temperatureCountryMetricsOutputPath)
 
     val maxDiffCountriesOutputPath = outputBasePath + "max_diff_countries"
     val maxDiffCountriesOutput = MaxDiffCountriesQuery.run(temperatureInput)
     maxDiffCountriesOutput.foreach(println)
-    maxDiffCountriesOutput.map(_.toJsonString).coalesce(1).saveAsTextFile(maxDiffCountriesOutputPath)
+    maxDiffCountriesOutput.map(_.toJsonString).saveAsTextFile(maxDiffCountriesOutputPath)
 
     spark.stop()
   }

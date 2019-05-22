@@ -38,7 +38,7 @@ object MainMaxDiffCountries {
     val maxDiffCountriesOutputPath = outputBasePath + "max_diff_countries"
     val maxDiffCountriesOutput = MaxDiffCountriesQuery.run(temperatureInput)
     maxDiffCountriesOutput.foreach(println)
-    maxDiffCountriesOutput.map(_.toJsonString).coalesce(1).saveAsTextFile(maxDiffCountriesOutputPath)
+    maxDiffCountriesOutput.map(_.toJsonString).saveAsTextFile(maxDiffCountriesOutputPath)
 
     spark.stop()
   }
