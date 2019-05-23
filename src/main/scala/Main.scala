@@ -1,8 +1,8 @@
-import connectors.LocalAvroReader
-import model.{CityCountryValueSampleParser, CityDescriptionSampleParser}
+import connectors.{AvroReader, FormatReader}
+import model.{CityAttributeItemParser, _}
 import org.apache.spark.{SparkConf, SparkContext}
 import queries.{ClearCitiesQuery, CountryMetricsQuery, MaxDiffCountriesQuery}
-import utils.DateUtils
+import utils.{Config, DateUtils}
 
 object Main {
 
@@ -17,73 +17,84 @@ object Main {
       .setAppName("JASMINE")
       .set("spark.hadoop.validateOutputSpecs", "false")
 
-    val inputBasePath = "data/inputs/processed/"
-    val outputBasePath = "data/outputs/core/"
+    val config = Config.parseArgs(args)
+    val cityAttributeReader = FormatReader.apply(config.inputFormat, new CityAttributeItemParser())
+    val cityValueReader = FormatReader.apply(config.inputFormat, new CityValueItemParser())
+
 
     val spark = new SparkContext(conf)
 
-    val attributesInput = new LocalAvroReader()
-      .load(spark, inputBasePath + "avro/city_attributes.avro") // [city, country, timeOffset]
-      .map(item => (item.get(0).toString, (item.get(1).toString, item.get(2).toString)))
-      .cache() //map to (city, (country, timeOffset))
+    if (config.clearCitiesQueryEnabled || config.countryMetricsQueryEnabled || config.maxDiffCountriesQueryEnabled) {
+      val attributesInput = cityAttributeReader
+        .load(spark, s"${config.inputBasePath}${config.inputFormat}/city_attributes.${config.inputFormat}") // [city, country, timeOffset]
+        .map(item => (item.city, (item.country, item.timeOffset))) //map to (city, (country, timeOffset))
+        .cache()
 
-    val humidityInput = new LocalAvroReader()
-      .load(spark, inputBasePath + "avro/humidity.avro") // [datetime, city, value]
-      .map(item => (item.get(1).toString, (item.get(0).toString, item.get(2).toString))) //map to (city, (datetime, value))
-      .join(attributesInput) // join them
-      .map({ case (city, ((datetime, value), (country, offset))) => (DateUtils.reformatWithTimezone(datetime, offset), city, country, value) }) // map to [dateTime+offset, city, country, value]
-      .map(CityCountryValueSampleParser.FromStringTuple)
-      .cache()
+      // CLEAR CITIES QUERY
+      if (config.clearCitiesQueryEnabled) {
+        val weatherDescriptionInput = cityValueReader
+          .load(spark, s"${config.inputBasePath}${config.inputFormat}/weather_description.${config.inputFormat}") // [datetime, city, value]
+          .map(item => (item.city, (item.datetime, item.value))) //map to (city, (datetime, value))
+          .join(attributesInput) // join them
+          .map({ case (city, ((datetime, value), (_, offset))) => CityDescriptionSampleParser.FromStringTuple(DateUtils.reformatWithTimezone(datetime, offset), city, value) }) // map to [dateTime+offset, city, value]
+          .cache()
 
-    val pressureInput = new LocalAvroReader()
-      .load(spark, inputBasePath + "avro/pressure.avro") // [datetime, city, value]
-      .map(item => (item.get(1).toString, (item.get(0).toString, item.get(2).toString))) //map to (city, (datetime, value))
-      .join(attributesInput) // join them
-      .map({ case (city, ((datetime, value), (country, offset))) => (DateUtils.reformatWithTimezone(datetime, offset), city, country, value) }) // map to [dateTime+offset, city, country, value]
-      .map(CityCountryValueSampleParser.FromStringTuple)
-      .cache()
+        val clearCitiesOutputPath = config.outputBasePath + "clear_cities"
+        val clearCitiesOutput = ClearCitiesQuery.run(weatherDescriptionInput)
+        clearCitiesOutput.foreach(println)
+        clearCitiesOutput.map(_.toJsonString).saveAsTextFile(clearCitiesOutputPath)
+      }
 
-    val temperatureInput = new LocalAvroReader()
-      .load(spark, inputBasePath + "avro/temperature.avro") // [datetime, city, value]
-      .map(item => (item.get(1).toString, (item.get(0).toString, item.get(2).toString))) //map to (city, (datetime, value))
-      .join(attributesInput) // join them
-      .map({ case (city, ((datetime, value), (country, offset))) => (DateUtils.reformatWithTimezone(datetime, offset), city, country, value) }) // map to [dateTime+offset, city, country, value]
-      .map(CityCountryValueSampleParser.FromStringTuple)
-      .cache()
+      if (config.countryMetricsQueryEnabled || config.maxDiffCountriesQueryEnabled) {
+        val temperatureInput = cityValueReader
+          .load(spark, s"${config.inputBasePath}${config.inputFormat}/temperature.${config.inputFormat}") // [datetime, city, value]
+          .map(item => (item.city, (item.datetime, item.value))) //map to (city, (datetime, value))
+          .join(attributesInput) // join them
+          .map({ case (city, ((datetime, value), (country, offset))) => CityCountryValueSampleParser.FromStringTuple(DateUtils.reformatWithTimezone(datetime, offset), city, country, value) }) // map to [dateTime+offset, city, country, value]
+          .cache()
 
-    val weatherDescriptionInput = new LocalAvroReader()
-      .load(spark, inputBasePath + "avro/weather_description.avro") // [datetime, city, value]
-      .map(item => (item.get(1).toString, (item.get(0).toString, item.get(2).toString))) //map to (city, (datetime, value))
-      .join(attributesInput) // join them
-      .map({ case (city, ((datetime, value), (_, offset))) => (DateUtils.reformatWithTimezone(datetime, offset), city, value) }) // map to [dateTime+offset, city, value]
-      .map(CityDescriptionSampleParser.FromStringTuple)
-      .cache()
+        // COUNTRY METRICS QUERY
+        if (config.countryMetricsQueryEnabled) {
+          val humidityInput = cityValueReader
+            .load(spark, s"${config.inputBasePath}${config.inputFormat}/humidity.${config.inputFormat}") // [datetime, city, value]
+            .map(item => (item.city, (item.datetime, item.value))) //map to (city, (datetime, value))
+            .join(attributesInput) // join them
+            .map({ case (city, ((datetime, value), (country, offset))) => CityCountryValueSampleParser.FromStringTuple(DateUtils.reformatWithTimezone(datetime, offset), city, country, value) }) // map to [dateTime+offset, city, country, value]
+            .cache()
 
-    val clearCitiesOutputPath = outputBasePath + "clear_cities"
-    val clearCitiesOutput = ClearCitiesQuery.run(weatherDescriptionInput)
-    clearCitiesOutput.foreach(println)
-    clearCitiesOutput.map(_.toJsonString).saveAsTextFile(clearCitiesOutputPath)
+          val pressureInput = cityValueReader
+            .load(spark, s"${config.inputBasePath}${config.inputFormat}/pressure.${config.inputFormat}") // [datetime, city, value]
+            .map(item => (item.city, (item.datetime, item.value))) //map to (city, (datetime, value))
+            .join(attributesInput) // join them
+            .map({ case (city, ((datetime, value), (country, offset))) => CityCountryValueSampleParser.FromStringTuple(DateUtils.reformatWithTimezone(datetime, offset), city, country, value) }) // map to [dateTime+offset, city, country, value]
+            .cache()
 
-    val humidityCountryMetricsOutputPath = outputBasePath + "humidity_country_metrics"
-    val humidityCountryMetricsOutput = CountryMetricsQuery.run(humidityInput)
-    humidityCountryMetricsOutput.foreach(println)
-    humidityCountryMetricsOutput.map(_.toJsonString).saveAsTextFile(humidityCountryMetricsOutputPath)
-    humidityCountryMetricsOutput.map(_.toJsonString).saveAsTextFile(humidityCountryMetricsOutputPath)
+          val humidityCountryMetricsOutputPath = config.outputBasePath + "humidity_country_metrics"
+          val humidityCountryMetricsOutput = CountryMetricsQuery.run(humidityInput)
+          humidityCountryMetricsOutput.foreach(println)
+          humidityCountryMetricsOutput.map(_.toJsonString).saveAsTextFile(humidityCountryMetricsOutputPath)
+          humidityCountryMetricsOutput.map(_.toJsonString).saveAsTextFile(humidityCountryMetricsOutputPath)
 
-    val pressureCountryMetricsOutputPath = outputBasePath + "pressure_country_metrics"
-    val pressureCountryMetricsOutput = CountryMetricsQuery.run(pressureInput)
-    pressureCountryMetricsOutput.foreach(println)
-    pressureCountryMetricsOutput.map(_.toJsonString).saveAsTextFile(pressureCountryMetricsOutputPath)
+          val pressureCountryMetricsOutputPath = config.outputBasePath + "pressure_country_metrics"
+          val pressureCountryMetricsOutput = CountryMetricsQuery.run(pressureInput)
+          pressureCountryMetricsOutput.foreach(println)
+          pressureCountryMetricsOutput.map(_.toJsonString).saveAsTextFile(pressureCountryMetricsOutputPath)
 
-    val temperatureCountryMetricsOutputPath = outputBasePath + "temperature_country_metrics"
-    val temperatureCountryMetricsOutput = CountryMetricsQuery.run(temperatureInput)
-    temperatureCountryMetricsOutput.foreach(println)
-    temperatureCountryMetricsOutput.map(_.toJsonString).saveAsTextFile(temperatureCountryMetricsOutputPath)
+          val temperatureCountryMetricsOutputPath = config.outputBasePath + "temperature_country_metrics"
+          val temperatureCountryMetricsOutput = CountryMetricsQuery.run(temperatureInput)
+          temperatureCountryMetricsOutput.foreach(println)
+          temperatureCountryMetricsOutput.map(_.toJsonString).saveAsTextFile(temperatureCountryMetricsOutputPath)
+        }
 
-    val maxDiffCountriesOutputPath = outputBasePath + "max_diff_countries"
-    val maxDiffCountriesOutput = MaxDiffCountriesQuery.run(temperatureInput)
-    maxDiffCountriesOutput.foreach(println)
-    maxDiffCountriesOutput.map(_.toJsonString).saveAsTextFile(maxDiffCountriesOutputPath)
+        // MAX DIFF COUNTRIES QUERY
+        if (config.maxDiffCountriesQueryEnabled) {
+          val maxDiffCountriesOutputPath = config.outputBasePath + "max_diff_countries"
+          val maxDiffCountriesOutput = MaxDiffCountriesQuery.run(temperatureInput)
+          maxDiffCountriesOutput.foreach(println)
+          maxDiffCountriesOutput.map(_.toJsonString).saveAsTextFile(maxDiffCountriesOutputPath)
+        }
+      }
+    }
 
     spark.stop()
   }
