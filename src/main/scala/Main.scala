@@ -14,7 +14,7 @@ object Main {
   def main(args: Array[String]) {
     val conf = new SparkConf()
       .setMaster("local[*]")
-      .setAppName("JASMINE")
+      .setAppName("JASMINE Batch Core")
       .set("spark.hadoop.validateOutputSpecs", "false")
 
     val config = Config.parseArgs(args)
