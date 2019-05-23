@@ -3,15 +3,6 @@ package utils
 case class Config(inputBasePath: String, outputBasePath: String, inputFormat: String, clearCitiesQueryEnabled: Boolean, countryMetricsQueryEnabled: Boolean, maxDiffCountriesQueryEnabled: Boolean)
 
 object Config {
-  def default = new Config(
-    "data/inputs/processed/",
-    "data/outputs/core/",
-    "avro",
-    true,
-    false,
-    false
-  )
-
   def parseArgs(args: Array[String]): Config = args.sliding(2, 1).toList.foldLeft(this.default) {
     case (accumArgs, currArgs) => currArgs match {
       case Array("--input-base-path", inputBasePath) => accumArgs.copy(inputBasePath = inputBasePath)
@@ -23,4 +14,13 @@ object Config {
       case _ => accumArgs // Do whatever you want for this case
     }
   }
+
+  def default = new Config(
+    "data/inputs/processed/",
+    "data/outputs/core/",
+    "avro",
+    true,
+    false,
+    false
+  )
 }

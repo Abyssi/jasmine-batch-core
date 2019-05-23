@@ -11,6 +11,7 @@ import scala.reflect.ClassTag
 class AvroReader[O: ClassTag](var _parser: Parser[O]) extends FormatReader[O] {
 
   override var parser: Parser[O] = _parser
+
   override def load(spark: SparkContext, path: String): RDD[O] = {
     spark
       .hadoopFile[AvroWrapper[GenericRecord], NullWritable, AvroInputFormat[GenericRecord]](path)

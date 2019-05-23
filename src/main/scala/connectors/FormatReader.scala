@@ -15,7 +15,7 @@ object FormatReader {
   }
 }
 
-trait FormatReader[O] extends Serializable  {
+trait FormatReader[O] extends Serializable {
   var parser: Parser[O]
 
   def load(spark: SparkContext, path: String): RDD[O]

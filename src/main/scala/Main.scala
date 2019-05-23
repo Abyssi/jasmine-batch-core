@@ -1,4 +1,4 @@
-import connectors.{AvroReader, FormatReader}
+import connectors.FormatReader
 import model.{CityAttributeItemParser, _}
 import org.apache.spark.{SparkConf, SparkContext}
 import queries.{ClearCitiesQuery, CountryMetricsQuery, MaxDiffCountriesQuery}
@@ -20,7 +20,6 @@ object Main {
     val config = Config.parseArgs(args)
     val cityAttributeReader = FormatReader.apply(config.inputFormat, new CityAttributeItemParser())
     val cityValueReader = FormatReader.apply(config.inputFormat, new CityValueItemParser())
-
 
     val spark = new SparkContext(conf)
 
