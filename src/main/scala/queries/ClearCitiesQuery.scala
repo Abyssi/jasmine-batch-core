@@ -4,7 +4,6 @@ import java.util.Calendar
 
 import model.{CityDescriptionSample, YearCityItem, YearCityItemParser}
 import org.apache.spark.rdd.RDD
-import utils.ProfilingUtils
 
 /**
   * Query 1

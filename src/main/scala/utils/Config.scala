@@ -19,8 +19,8 @@ object Config {
     "data/inputs/processed/",
     "data/outputs/core/",
     "avro",
-    true,
     false,
-    false
+    false,
+    true
   )
 }

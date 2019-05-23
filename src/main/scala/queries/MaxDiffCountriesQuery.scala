@@ -6,6 +6,7 @@ import model.{CityCountryValueSample, CountryCityRankCompareItem, CountryCityRan
 import operators.SorterFunctions
 import operators.model.MeanCounter
 import org.apache.spark.rdd.RDD
+import utils.IterableUtils
 
 /**
   *
@@ -20,13 +21,13 @@ object MaxDiffCountriesQuery {
           && (item.datetime.get(Calendar.YEAR) == 2016 || item.datetime.get(Calendar.YEAR) == 2017)
           && monthsMap(item.datetime.get(Calendar.MONTH)) != 0
       ) // filter all unused things
-      .map(item => ((item.datetime.get(Calendar.YEAR), monthsMap(item.datetime.get(Calendar.MONTH)), item.city, item.country), MeanCounter.apply(item.value))) // map to ((year, month_id, city, country), mean_counter)
-      .reduceByKey(_.merge(_)) // aggregate mean counters
+      .map(item => ((item.datetime.get(Calendar.YEAR), monthsMap(item.datetime.get(Calendar.MONTH)), item.city, item.country), item.value)) // map to ((year, month_id, city, country), mean_counter)
+      .aggregateByKey(MeanCounter(Nil))((acc: MeanCounter, value: Double) => acc.merge(value), (acc1: MeanCounter, acc2: MeanCounter) => acc1.merge(acc2))
       .map(item => ((item._1._1, item._1._3, item._1._4), item._2.mean)) // map to ((year, city, country), mean)
-      .reduceByKey((accum, value) => Math.max(accum, value) - Math.min(accum, value)) // compute differences
-      .mapValues(Math.abs)
-
-    middle.foreach(println)
+      .groupByKey()
+      .mapValues(item => {
+        val (min, max) = IterableUtils.minMax(item); Math.abs(max - min)
+      }) // compute differences
 
     val filtered2016 = middle
       .filter(_._1._1 == 2016) // filter if year == 2016
