@@ -2,11 +2,9 @@ package model
 
 import utils.JsonSerializable
 
-@SerialVersionUID(100L)
 class Metrics(val mean: Double, val stdev: Double, val min: Double, val max: Double) extends Serializable with JsonSerializable {
 }
 
-@SerialVersionUID(100L)
 class YearMonthCountryMetricsItem(val year: Int, val month: Int, val country: String, val metrics: Metrics) extends Serializable with JsonSerializable {
 }
 

@@ -2,11 +2,9 @@ package model
 
 import utils.JsonSerializable
 
-@SerialVersionUID(100L)
 class CountryCityRankItem(val position: Int, val value: Double) extends Serializable with JsonSerializable {
 }
 
-@SerialVersionUID(100L)
 class CountryCityRankCompareItem(val country: String, val city: String, val newRank: CountryCityRankItem, val oldRank: CountryCityRankItem) extends Serializable with JsonSerializable {
 }
 

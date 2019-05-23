@@ -2,7 +2,7 @@ import connectors.FormatReader
 import model.{CityAttributeItemParser, _}
 import org.apache.spark.{SparkConf, SparkContext}
 import queries.{ClearCitiesQuery, CountryMetricsQuery, MaxDiffCountriesQuery}
-import utils.{Config, DateUtils}
+import utils.{Config, DateUtils, ProfilingUtils}
 
 object Main {
 

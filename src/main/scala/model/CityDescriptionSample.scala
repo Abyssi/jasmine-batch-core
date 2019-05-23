@@ -5,7 +5,6 @@ import java.util.Calendar
 import org.apache.avro.generic.GenericRecord
 import utils.DateUtils
 
-@SerialVersionUID(100L)
 class CityDescriptionSample(val datetime: Calendar, val city: String, val description: String) extends Serializable {
 }
 
