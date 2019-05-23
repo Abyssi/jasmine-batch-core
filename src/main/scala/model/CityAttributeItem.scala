@@ -3,14 +3,18 @@ package model
 import connectors.Parser
 import org.apache.avro.generic.GenericRecord
 
-case class CityAttributeItem(city: String, country: String, timeOffset: String)
+case class CityAttributeItem(city: String, country: String, timeOffset: String) extends Serializable
+
+object CityAttributeItem {
+  def From(tuple: (String, String, String)): CityAttributeItem = CityAttributeItem(tuple._1, tuple._2, tuple._3)
+
+  def From(array: Array[String]): CityAttributeItem = CityAttributeItem(array(0), array(1), array(2))
+
+  def From(record: GenericRecord): CityAttributeItem = CityAttributeItem(record.get(0).toString, record.get(1).toString, record.get(2).toString)
+}
 
 class CityAttributeItemParser extends Parser[CityAttributeItem] {
-  override def parse(input: Array[String]): CityAttributeItem = {
-    CityAttributeItem(input(0), input(1), input(2))
-  }
+  override def parse(input: Array[String]): CityAttributeItem = CityAttributeItem.From(input)
 
-  override def parse(input: GenericRecord): CityAttributeItem = {
-    CityAttributeItem(input.get(0).toString, input.get(1).toString, input.get(2).toString)
-  }
+  override def parse(input: GenericRecord): CityAttributeItem = CityAttributeItem.From(input)
 }

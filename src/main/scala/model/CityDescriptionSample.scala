@@ -2,22 +2,22 @@ package model
 
 import java.util.Calendar
 
+import connectors.Parser
 import org.apache.avro.generic.GenericRecord
 import utils.DateUtils
 
-class CityDescriptionSample(val datetime: Calendar, val city: String, val description: String) extends Serializable {
+case class CityDescriptionSample(datetime: Calendar, city: String, description: String) extends Serializable
+
+object CityDescriptionSample {
+  def From(tuple: (String, String, String)): CityDescriptionSample = CityDescriptionSample(DateUtils.parseCalendar(tuple._1), tuple._2, tuple._3)
+
+  def From(array: Array[String]): CityDescriptionSample = CityDescriptionSample(DateUtils.parseCalendar(array(0)), array(1), array(2))
+
+  def From(record: GenericRecord): CityDescriptionSample = CityDescriptionSample(DateUtils.parseCalendar(record.get("datetime").toString), record.get("city").toString, record.get("description").toString)
 }
 
-object CityDescriptionSampleParser {
-  def FromStringTuple(tuple: (String, String, String)): CityDescriptionSample = {
-    new CityDescriptionSample(DateUtils.parseCalendar(tuple._1), tuple._2, tuple._3)
-  }
+class CityDescriptionSampleParser extends Parser[CityDescriptionSample] {
+  override def parse(input: Array[String]): CityDescriptionSample = CityDescriptionSample.From(input)
 
-  def FromStringArray(array: Array[String]): CityDescriptionSample = {
-    new CityDescriptionSample(DateUtils.parseCalendar(array(0)), array(1), array(2))
-  }
-
-  def FromGenericRecord(record: GenericRecord): CityDescriptionSample = {
-    new CityDescriptionSample(DateUtils.parseCalendar(record.get("datetime").toString), record.get("city").toString, record.get("description").toString)
-  }
+  override def parse(input: GenericRecord): CityDescriptionSample = CityDescriptionSample.From(input)
 }

@@ -2,7 +2,7 @@ package queries
 
 import java.util.Calendar
 
-import model.{CityDescriptionSample, YearCityItem, YearCityItemParser}
+import model.{CityDescriptionSample, YearCityOutputItem}
 import org.apache.spark.rdd.RDD
 
 /**
@@ -13,7 +13,7 @@ import org.apache.spark.rdd.RDD
   **/
 object ClearCitiesQuery {
 
-  def run(input: RDD[CityDescriptionSample]): RDD[YearCityItem] = {
+  def run(input: RDD[CityDescriptionSample]): RDD[YearCityOutputItem] = {
     val months = Array(3, 4, 5)
     val key = "sky is clear"
     input
@@ -30,7 +30,7 @@ object ClearCitiesQuery {
       .reduceByKey(_ + _) // sum ((year, month, city), counter)
       .filter(_._2 == 3) // leave only cities with all 3 months sunny
 
-      .map(item => YearCityItemParser.FromTuple(item._1)) // Map to output value (year, city)
+      .map(item => YearCityOutputItem.From(item._1)) // Map to output value (year, city)
   }
 
 }

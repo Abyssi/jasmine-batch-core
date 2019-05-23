@@ -2,7 +2,7 @@ package queries
 
 import java.util.Calendar
 
-import model.{CityCountryValueSample, CountryCityRankCompareItem, CountryCityRankCompareItemParser}
+import model.{CityCountryValueSample, CountryCityRankCompareOutputItemItem}
 import operators.SorterFunctions
 import operators.model.MeanCounter
 import org.apache.spark.rdd.RDD
@@ -12,7 +12,7 @@ import utils.IterableUtils
   *
   **/
 object MaxDiffCountriesQuery {
-  def run(input: RDD[CityCountryValueSample]): RDD[CountryCityRankCompareItem] = {
+  def run(input: RDD[CityCountryValueSample]): RDD[CountryCityRankCompareOutputItemItem] = {
     val monthsMap = Array(1, 1, 1, 1, 0, 2, 2, 2, 2, 0, 0, 0)
 
     val middle = input
@@ -26,7 +26,8 @@ object MaxDiffCountriesQuery {
       .map(item => ((item._1._1, item._1._3, item._1._4), item._2.mean)) // map to ((year, city, country), mean)
       .groupByKey()
       .mapValues(item => {
-        val (min, max) = IterableUtils.minMax(item); Math.abs(max - min)
+        val (min, max) = IterableUtils.minMax(item)
+        Math.abs(max - min)
       }) // compute differences
 
     val filtered2016 = middle
@@ -45,7 +46,7 @@ object MaxDiffCountriesQuery {
 
     output2017
       .join(output2016)
-      .map(CountryCityRankCompareItemParser.FromTuple)
+      .map(CountryCityRankCompareOutputItemItem.From)
   }
 
 }

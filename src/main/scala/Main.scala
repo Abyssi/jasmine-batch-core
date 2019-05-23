@@ -1,8 +1,8 @@
 import connectors.FormatReader
-import model.{CityAttributeItemParser, _}
+import model.{CityAttributeItemParser, CityCountryValueSampleParser, _}
 import org.apache.spark.{SparkConf, SparkContext}
 import queries.{ClearCitiesQuery, CountryMetricsQuery, MaxDiffCountriesQuery}
-import utils.{Config, DateUtils, ProfilingUtils}
+import utils.{Config, DateUtils}
 
 object Main {
 
@@ -18,26 +18,30 @@ object Main {
       .set("spark.hadoop.validateOutputSpecs", "false")
 
     val config = Config.parseArgs(args)
-    val cityAttributeReader = FormatReader.apply(config.inputFormat, new CityAttributeItemParser())
-    val cityValueReader = FormatReader.apply(config.inputFormat, new CityValueItemParser())
 
     val spark = new SparkContext(conf)
 
     if (config.clearCitiesQueryEnabled || config.countryMetricsQueryEnabled || config.maxDiffCountriesQueryEnabled) {
-      val attributesInput = cityAttributeReader
-        .load(spark, s"${config.inputBasePath}${config.inputFormat}/city_attributes.${config.inputFormat}") // [city, country, timeOffset]
-        .map(item => (item.city, (item.country, item.timeOffset))) //map to (city, (country, timeOffset))
-        .cache()
+      val attributesInput = if (config.needJoin)
+        FormatReader.apply(config.inputFormat, new CityAttributeItemParser())
+          .load(spark, s"${config.inputBasePath}${config.inputFormat}/city_attributes.${config.inputFormat}") // [city, country, timeOffset]
+          .map(item => (item.city, (item.country, item.timeOffset))) //map to (city, (country, timeOffset))
+          .cache()
+      else null
 
       //ProfilingUtils.timeRDD(attributesInput, "attributes Input")
 
       // CLEAR CITIES QUERY
       if (config.clearCitiesQueryEnabled) {
-        val weatherDescriptionInput = cityValueReader
-          .load(spark, s"${config.inputBasePath}${config.inputFormat}/weather_description.${config.inputFormat}") // [datetime, city, value]
-          .map(item => (item.city, (item.datetime, item.value))) //map to (city, (datetime, value))
-          .join(attributesInput) // join them
-          .map({ case (city, ((datetime, value), (_, offset))) => CityDescriptionSampleParser.FromStringTuple(DateUtils.reformatWithTimezone(datetime, offset), city, value) }) // map to [dateTime+offset, city, value]
+        val weatherDescriptionInput = if (config.needJoin)
+          FormatReader.apply(config.inputFormat, new CityValueItemParser())
+            .load(spark, s"${config.inputBasePath}${config.inputFormat}/weather_description.${config.inputFormat}") // [datetime, city, value]
+            .map(item => (item.city, (item.datetime, item.value))) //map to (city, (datetime, value))
+            .join(attributesInput) // join them
+            .map({ case (city, ((datetime, value), (_, offset))) => CityDescriptionSample.From(DateUtils.reformatWithTimezone(datetime, offset), city, value) }) // map to [dateTime+offset, city, value]
+        else
+          FormatReader.apply(config.inputFormat, new CityDescriptionSampleParser())
+            .load(spark, s"${config.inputBasePath}${config.inputFormat}/weather_description.${config.inputFormat}") // [datetime, city, value]
 
         //ProfilingUtils.timeRDD(weatherDescriptionInput, "weather Description Input")
 
@@ -49,30 +53,42 @@ object Main {
       }
 
       if (config.countryMetricsQueryEnabled || config.maxDiffCountriesQueryEnabled) {
-        val temperatureInput = cityValueReader
-          .load(spark, s"${config.inputBasePath}${config.inputFormat}/temperature.${config.inputFormat}") // [datetime, city, value]
-          .map(item => (item.city, (item.datetime, item.value))) //map to (city, (datetime, value))
-          .join(attributesInput) // join them
-          .map({ case (city, ((datetime, value), (country, offset))) => CityCountryValueSampleParser.FromStringTuple(DateUtils.reformatWithTimezone(datetime, offset), city, country, value) }) // map to [dateTime+offset, city, country, value]
-          .cache()
+        val temperatureInput = if (config.needJoin)
+          FormatReader.apply(config.inputFormat, new CityValueItemParser())
+            .load(spark, s"${config.inputBasePath}${config.inputFormat}/temperature.${config.inputFormat}") // [datetime, city, value]
+            .map(item => (item.city, (item.datetime, item.value))) //map to (city, (datetime, value))
+            .join(attributesInput) // join them
+            .map({ case (city, ((datetime, value), (country, offset))) => CityCountryValueSample.From(DateUtils.reformatWithTimezone(datetime, offset), city, country, value) }) // map to [dateTime+offset, city, country, value]
+            .cache()
+        else
+          FormatReader.apply(config.inputFormat, new CityCountryValueSampleParser())
+            .load(spark, s"${config.inputBasePath}${config.inputFormat}/temperature.${config.inputFormat}") // map to [dateTime, city, country, value]
 
         //ProfilingUtils.timeRDD(temperatureInput, "temperature Input")
 
         // COUNTRY METRICS QUERY
         if (config.countryMetricsQueryEnabled) {
-          val humidityInput = cityValueReader
-            .load(spark, s"${config.inputBasePath}${config.inputFormat}/humidity.${config.inputFormat}") // [datetime, city, value]
-            .map(item => (item.city, (item.datetime, item.value))) //map to (city, (datetime, value))
-            .join(attributesInput) // join them
-            .map({ case (city, ((datetime, value), (country, offset))) => CityCountryValueSampleParser.FromStringTuple(DateUtils.reformatWithTimezone(datetime, offset), city, country, value) }) // map to [dateTime+offset, city, country, value]
+          val humidityInput = if (config.needJoin)
+            FormatReader.apply(config.inputFormat, new CityValueItemParser())
+              .load(spark, s"${config.inputBasePath}${config.inputFormat}/humidity.${config.inputFormat}") // [datetime, city, value]
+              .map(item => (item.city, (item.datetime, item.value))) //map to (city, (datetime, value))
+              .join(attributesInput) // join them
+              .map({ case (city, ((datetime, value), (country, offset))) => CityCountryValueSample.From(DateUtils.reformatWithTimezone(datetime, offset), city, country, value) }) // map to [dateTime+offset, city, country, value]
+          else
+            FormatReader.apply(config.inputFormat, new CityCountryValueSampleParser())
+              .load(spark, s"${config.inputBasePath}${config.inputFormat}/humidity.${config.inputFormat}") // map to [dateTime, city, country, value]
 
           //ProfilingUtils.timeRDD(humidityInput, "humidity Input")
 
-          val pressureInput = cityValueReader
-            .load(spark, s"${config.inputBasePath}${config.inputFormat}/pressure.${config.inputFormat}") // [datetime, city, value]
-            .map(item => (item.city, (item.datetime, item.value))) //map to (city, (datetime, value))
-            .join(attributesInput) // join them
-            .map({ case (city, ((datetime, value), (country, offset))) => CityCountryValueSampleParser.FromStringTuple(DateUtils.reformatWithTimezone(datetime, offset), city, country, value) }) // map to [dateTime+offset, city, country, value]
+          val pressureInput = if (config.needJoin)
+            FormatReader.apply(config.inputFormat, new CityValueItemParser())
+              .load(spark, s"${config.inputBasePath}${config.inputFormat}/pressure.${config.inputFormat}") // [datetime, city, value]
+              .map(item => (item.city, (item.datetime, item.value))) //map to (city, (datetime, value))
+              .join(attributesInput) // join them
+              .map({ case (city, ((datetime, value), (country, offset))) => CityCountryValueSample.From(DateUtils.reformatWithTimezone(datetime, offset), city, country, value) }) // map to [dateTime+offset, city, country, value]
+          else
+            FormatReader.apply(config.inputFormat, new CityCountryValueSampleParser())
+              .load(spark, s"${config.inputBasePath}${config.inputFormat}/pressure.${config.inputFormat}") // map to [dateTime, city, country, value]
 
           //ProfilingUtils.timeRDD(pressureInput, "pressure Input")
 
@@ -106,7 +122,7 @@ object Main {
       }
     }
 
-    System.in.read
+    //System.in.read
     spark.stop()
   }
 
