@@ -4,6 +4,7 @@ import java.util.Calendar
 
 import model.{CityDescriptionSample, YearCityItem, YearCityItemParser}
 import org.apache.spark.rdd.RDD
+import utils.ProfilingUtils
 
 /**
   * Query 1
@@ -14,9 +15,10 @@ import org.apache.spark.rdd.RDD
 object ClearCitiesQuery {
 
   def run(input: RDD[CityDescriptionSample]): RDD[YearCityItem] = {
+    val months = Array(3, 4, 5)
+    val key = "sky is clear"
     input
-      .filter(item => item.description.equals("sky is clear") && Array(3, 4, 5).contains(item.datetime.get(Calendar.MONTH) + 1))
-
+      .filter(item => item.description.equals(key) && months.contains(item.datetime.get(Calendar.MONTH) + 1))
       .map(item => ((item.datetime.get(Calendar.YEAR), item.datetime.get(Calendar.MONTH) + 1, item.datetime.get(Calendar.DAY_OF_MONTH), item.city), 1)) //map to ((year, month, day, city), 1)
       .reduceByKey(_ + _) // sum ((year, month, day, city), counter)
       .filter(_._2 >= 20) // leave only cities with >= 20 sunny pings
