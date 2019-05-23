@@ -21,8 +21,8 @@ object MaxDiffCountriesQuery {
           && (item.datetime.get(Calendar.YEAR) == 2016 || item.datetime.get(Calendar.YEAR) == 2017)
           && monthsMap(item.datetime.get(Calendar.MONTH)) != 0
       ) // filter all unused things
-      .map(item => ((item.datetime.get(Calendar.YEAR), monthsMap(item.datetime.get(Calendar.MONTH)), item.city, item.country), item.value)) // map to ((year, month_id, city, country), mean_counter)
-      .aggregateByKey(MeanCounter(Nil))((acc: MeanCounter, value: Double) => acc.merge(value), (acc1: MeanCounter, acc2: MeanCounter) => acc1.merge(acc2))
+      .map(item => ((item.datetime.get(Calendar.YEAR), monthsMap(item.datetime.get(Calendar.MONTH)), item.city, item.country), item.value)) // map to ((year, month_id, city, country), value)
+      .aggregateByKey(MeanCounter(Nil))((acc: MeanCounter, value: Double) => acc.merge(value), (acc1: MeanCounter, acc2: MeanCounter) => acc1.merge(acc2)) // aggregate with MeanCounter
       .map(item => ((item._1._1, item._1._3, item._1._4), item._2.mean)) // map to ((year, city, country), mean)
       .groupByKey()
       .mapValues(item => {
