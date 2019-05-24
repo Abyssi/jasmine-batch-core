@@ -5,6 +5,9 @@ import org.apache.avro.generic.GenericRecord
 
 case class CityAttributeItem(city: String, country: String, timeOffset: String) extends Serializable
 
+/**
+  * City Attribute item
+  */
 object CityAttributeItem {
   def From(tuple: (String, String, String)): CityAttributeItem = CityAttributeItem(tuple._1, tuple._2, tuple._3)
 

@@ -5,6 +5,9 @@ import org.apache.spark.rdd.RDD
 
 import scala.reflect.ClassTag
 
+/**
+  * Format Reader object
+  */
 object FormatReader {
   def apply[O: ClassTag](format: String, parser: Parser[O]): FormatReader[O] = {
     format match {

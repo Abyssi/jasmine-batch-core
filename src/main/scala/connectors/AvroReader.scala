@@ -8,6 +8,12 @@ import org.apache.spark.rdd.RDD
 
 import scala.reflect.ClassTag
 
+/**
+  * Avro Reader class
+  * @param _parser
+  * @param classTag$O
+  * @tparam O
+  */
 class AvroReader[O: ClassTag](var _parser: Parser[O]) extends FormatReader[O] {
 
   override var parser: Parser[O] = _parser

@@ -1,21 +1,25 @@
 package operators.model
 
+/**
+  * Mean Counter class
+  * @param values
+  */
 class MeanCounter(values: TraversableOnce[Double]) extends Serializable {
   private var n: Long = 0 // Running count of our values
   private var mu: Double = 0 // Running mean of our values
 
   merge(values)
 
-  /** Initialize the MeanCounter with no values. */
+  /** Initialize MeanCounter */
   def this() = this(Nil)
 
-  /** Add multiple values into this MeanCounter, updating the internal statistics. */
+  /** Add values into MeanCounter updating statistics */
   def merge(values: TraversableOnce[Double]): MeanCounter = {
     values.foreach(v => merge(v))
     this
   }
 
-  /** Add a value into this MeanCounter, updating the internal statistics. */
+  /** Add value into MeanCounter updating statistics */
   def merge(value: Double): MeanCounter = {
     val delta = value - mu
     n += 1
@@ -23,7 +27,7 @@ class MeanCounter(values: TraversableOnce[Double]) extends Serializable {
     this
   }
 
-  /** Merge another MeanCounter into this one, adding up the internal statistics. */
+  /** Merge another MeanCounter adding up statistics */
   def merge(other: MeanCounter): MeanCounter = {
     if (other == this) {
       merge(other.copy()) // Avoid overwriting fields in a weird order
@@ -46,7 +50,7 @@ class MeanCounter(values: TraversableOnce[Double]) extends Serializable {
     }
   }
 
-  /** Clone this MeanCounter */
+  /** Clone MeanCounter */
   def copy(): MeanCounter = {
     val other = new MeanCounter
     other.n = n
@@ -66,9 +70,6 @@ class MeanCounter(values: TraversableOnce[Double]) extends Serializable {
 }
 
 object MeanCounter {
-  /** Build a MeanCounter from a list of values. */
   def apply(values: TraversableOnce[Double]): MeanCounter = new MeanCounter(values)
-
-  /** Build a MeanCounter from a list of values passed as variable-length arguments. */
   def apply(values: Double*): MeanCounter = new MeanCounter(values)
 }

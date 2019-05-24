@@ -9,6 +9,7 @@ import org.apache.spark.rdd.RDD
 import utils.IterableUtils
 
 /**
+  * Query 3
   *
   **/
 object MaxDiffCountriesQuery {

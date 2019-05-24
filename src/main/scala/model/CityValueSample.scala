@@ -6,6 +6,12 @@ import connectors.Parser
 import org.apache.avro.generic.GenericRecord
 import utils.DateUtils
 
+/**
+  * City Value Sample
+  * @param datetime
+  * @param city
+  * @param value
+  */
 case class CityValueSample(datetime: Calendar, city: String, value: Double) extends Serializable
 
 object CityValueSample {

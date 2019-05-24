@@ -7,6 +7,7 @@ import org.apache.spark.rdd.RDD
 import org.apache.spark.util.StatCounter
 
 /**
+  * Query 2
   *
   **/
 object CountryMetricsQuery {

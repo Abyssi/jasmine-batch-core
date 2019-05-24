@@ -7,9 +7,9 @@ import scala.collection.JavaConverters._
 import scala.collection.generic.Growable
 
 /**
-  * Priority queue. This class wraps the original PriorityQueue
-  * class and modifies it such that only the top K elements are retained.
-  * The top K elements are defined by an implicit Ordering[A].
+  * Priority Queue class
+  * @param ord
+  * @tparam A
   */
 class PriorityQueue[A]()(implicit ord: Ordering[A])
   extends Iterable[A] with Growable[A] with Serializable {

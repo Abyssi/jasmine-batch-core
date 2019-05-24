@@ -3,6 +3,12 @@ package model
 import connectors.Parser
 import org.apache.avro.generic.GenericRecord
 
+/**
+  * City Value Item
+  * @param datetime
+  * @param city
+  * @param value
+  */
 case class CityValueItem(datetime: String, city: String, value: String) extends Serializable
 
 object CityValueItem {

@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat
 import java.util.{Calendar, TimeZone}
 
 /**
-  * Date Utils
+  * Date Utils class
   */
 object DateUtils {
   //"yyyy-MM-dd'T'HH:mm:ssZ"
