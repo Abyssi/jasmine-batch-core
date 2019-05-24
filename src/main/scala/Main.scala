@@ -13,7 +13,7 @@ object Main {
     */
   def main(args: Array[String]) {
     val conf = new SparkConf()
-      .setMaster("local[*]")
+      //.setMaster("local[*]")
       .setAppName("JASMINE Batch Core")
       .set("spark.hadoop.validateOutputSpecs", "false")
 
@@ -29,8 +29,6 @@ object Main {
           .cache()
       else null
 
-      //ProfilingUtils.timeRDD(attributesInput, "attributes Input")
-
       // CLEAR CITIES QUERY
       if (config.clearCitiesQueryEnabled) {
         val weatherDescriptionInput = if (config.needJoin)
@@ -43,11 +41,8 @@ object Main {
           FormatReader.apply(config.inputFormat, new CityDescriptionSampleParser())
             .load(spark, s"${config.inputBasePath}${config.inputFormat}/weather_description.${config.inputFormat}") // [datetime, city, value]
 
-        //ProfilingUtils.timeRDD(weatherDescriptionInput, "weather Description Input")
-
         val clearCitiesOutputPath = config.outputBasePath + "clear_cities"
         val clearCitiesOutput = ClearCitiesQuery.run(weatherDescriptionInput)
-        //ProfilingUtils.timeRDD(clearCitiesOutput, "clear Cities Query")
         //clearCitiesOutput.foreach(println)
         clearCitiesOutput.map(_.toJsonString).saveAsTextFile(clearCitiesOutputPath)
       }
@@ -63,8 +58,7 @@ object Main {
         else
           FormatReader.apply(config.inputFormat, new CityCountryValueSampleParser())
             .load(spark, s"${config.inputBasePath}${config.inputFormat}/temperature.${config.inputFormat}") // map to [dateTime, city, country, value]
-
-        //ProfilingUtils.timeRDD(temperatureInput, "temperature Input")
+            .cache()
 
         // COUNTRY METRICS QUERY
         if (config.countryMetricsQueryEnabled) {
@@ -78,8 +72,6 @@ object Main {
             FormatReader.apply(config.inputFormat, new CityCountryValueSampleParser())
               .load(spark, s"${config.inputBasePath}${config.inputFormat}/humidity.${config.inputFormat}") // map to [dateTime, city, country, value]
 
-          //ProfilingUtils.timeRDD(humidityInput, "humidity Input")
-
           val pressureInput = if (config.needJoin)
             FormatReader.apply(config.inputFormat, new CityValueItemParser())
               .load(spark, s"${config.inputBasePath}${config.inputFormat}/pressure.${config.inputFormat}") // [datetime, city, value]
@@ -90,24 +82,16 @@ object Main {
             FormatReader.apply(config.inputFormat, new CityCountryValueSampleParser())
               .load(spark, s"${config.inputBasePath}${config.inputFormat}/pressure.${config.inputFormat}") // map to [dateTime, city, country, value]
 
-          //ProfilingUtils.timeRDD(pressureInput, "pressure Input")
-
           val humidityCountryMetricsOutputPath = config.outputBasePath + "humidity_country_metrics"
           val humidityCountryMetricsOutput = CountryMetricsQuery.run(humidityInput)
-          //ProfilingUtils.timeRDD(humidityCountryMetricsOutput, "humidity Country Metrics Output")
-          //humidityCountryMetricsOutput.foreach(println)
           humidityCountryMetricsOutput.map(_.toJsonString).saveAsTextFile(humidityCountryMetricsOutputPath)
 
           val pressureCountryMetricsOutputPath = config.outputBasePath + "pressure_country_metrics"
           val pressureCountryMetricsOutput = CountryMetricsQuery.run(pressureInput)
-          //ProfilingUtils.timeRDD(pressureCountryMetricsOutput, "pressure Country Metrics Output")
-          //pressureCountryMetricsOutput.foreach(println)
           pressureCountryMetricsOutput.map(_.toJsonString).saveAsTextFile(pressureCountryMetricsOutputPath)
 
           val temperatureCountryMetricsOutputPath = config.outputBasePath + "temperature_country_metrics"
           val temperatureCountryMetricsOutput = CountryMetricsQuery.run(temperatureInput)
-          //ProfilingUtils.timeRDD(temperatureCountryMetricsOutput, "temperature Country Metrics Output")
-          //temperatureCountryMetricsOutput.foreach(println)
           temperatureCountryMetricsOutput.map(_.toJsonString).saveAsTextFile(temperatureCountryMetricsOutputPath)
         }
 
@@ -116,7 +100,6 @@ object Main {
           val maxDiffCountriesOutputPath = config.outputBasePath + "max_diff_countries"
           val maxDiffCountriesOutput = MaxDiffCountriesQuery.run(temperatureInput)
           //ProfilingUtils.timeRDD(maxDiffCountriesOutput, "max Diff Countries Output")
-          //maxDiffCountriesOutput.foreach(println)
           maxDiffCountriesOutput.map(_.toJsonString).saveAsTextFile(maxDiffCountriesOutputPath)
         }
       }

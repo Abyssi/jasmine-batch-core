@@ -13,7 +13,7 @@ object CityDescriptionSample {
 
   def From(array: Array[String]): CityDescriptionSample = CityDescriptionSample(DateUtils.parseCalendar(array(0)), array(1), array(2))
 
-  def From(record: GenericRecord): CityDescriptionSample = CityDescriptionSample(DateUtils.parseCalendar(record.get("datetime").toString), record.get("city").toString, record.get("description").toString)
+  def From(record: GenericRecord): CityDescriptionSample = CityDescriptionSample(DateUtils.parseCalendar(record.get("datetime").toString), record.get("city").toString, record.get("value").toString)
 }
 
 class CityDescriptionSampleParser extends Parser[CityDescriptionSample] {
