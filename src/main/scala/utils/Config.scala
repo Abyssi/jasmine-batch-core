@@ -17,10 +17,10 @@ object Config {
   }
 
   def default = new Config(
-    "data/inputs/processed/",
+    "data/inputs/processed/need-join/",
     "data/outputs/core/",
     "avro",
-    false,
+    true,
     true,
     true,
     true

@@ -10,7 +10,7 @@ object CityAttributeItem {
 
   def From(array: Array[String]): CityAttributeItem = CityAttributeItem(array(0), array(1), array(2))
 
-  def From(record: GenericRecord): CityAttributeItem = CityAttributeItem(record.get(0).toString, record.get(1).toString, record.get(2).toString)
+  def From(record: GenericRecord): CityAttributeItem = CityAttributeItem(record.get("City").toString, record.get("country").toString, record.get("timezone").toString)
 }
 
 class CityAttributeItemParser extends Parser[CityAttributeItem] {

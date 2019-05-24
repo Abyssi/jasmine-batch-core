@@ -1,8 +1,10 @@
+import java.util.TimeZone
+
 import connectors.FormatReader
 import model.{CityAttributeItemParser, CityCountryValueSampleParser, _}
 import org.apache.spark.{SparkConf, SparkContext}
 import queries.{ClearCitiesQuery, CountryMetricsQuery, MaxDiffCountriesQuery}
-import utils.{Config, DateUtils}
+import utils.Config
 
 object Main {
 
@@ -13,9 +15,11 @@ object Main {
     */
   def main(args: Array[String]) {
     val conf = new SparkConf()
-      //.setMaster("local[*]")
+      .setMaster("local[*]")
       .setAppName("JASMINE Batch Core")
       .set("spark.hadoop.validateOutputSpecs", "false")
+
+    TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
 
     val config = Config.parseArgs(args)
 
@@ -36,7 +40,7 @@ object Main {
             .load(spark, s"${config.inputBasePath}${config.inputFormat}/weather_description.${config.inputFormat}") // [datetime, city, value]
             .map(item => (item.city, (item.datetime, item.value))) //map to (city, (datetime, value))
             .join(attributesInput) // join them
-            .map({ case (city, ((datetime, value), (_, offset))) => CityDescriptionSample.From(DateUtils.reformatWithTimezone(datetime, offset), city, value) }) // map to [dateTime+offset, city, value]
+            .map({ case (city, ((datetime, value), (_, offset))) => CityDescriptionSample.From(datetime, offset, city, value) }) // map to [dateTime+offset, city, value]
         else
           FormatReader.apply(config.inputFormat, new CityDescriptionSampleParser())
             .load(spark, s"${config.inputBasePath}${config.inputFormat}/weather_description.${config.inputFormat}") // [datetime, city, value]
@@ -53,7 +57,7 @@ object Main {
             .load(spark, s"${config.inputBasePath}${config.inputFormat}/temperature.${config.inputFormat}") // [datetime, city, value]
             .map(item => (item.city, (item.datetime, item.value))) //map to (city, (datetime, value))
             .join(attributesInput) // join them
-            .map({ case (city, ((datetime, value), (country, offset))) => CityCountryValueSample.From(DateUtils.reformatWithTimezone(datetime, offset), city, country, value) }) // map to [dateTime+offset, city, country, value]
+            .map({ case (city, ((datetime, value), (country, offset))) => CityCountryValueSample.From(datetime, offset, city, country, value) }) // map to [dateTime+offset, city, country, value]
             .cache()
         else
           FormatReader.apply(config.inputFormat, new CityCountryValueSampleParser())
@@ -67,7 +71,7 @@ object Main {
               .load(spark, s"${config.inputBasePath}${config.inputFormat}/humidity.${config.inputFormat}") // [datetime, city, value]
               .map(item => (item.city, (item.datetime, item.value))) //map to (city, (datetime, value))
               .join(attributesInput) // join them
-              .map({ case (city, ((datetime, value), (country, offset))) => CityCountryValueSample.From(DateUtils.reformatWithTimezone(datetime, offset), city, country, value) }) // map to [dateTime+offset, city, country, value]
+              .map({ case (city, ((datetime, value), (country, offset))) => CityCountryValueSample.From(datetime, offset, city, country, value) }) // map to [dateTime+offset, city, country, value]
           else
             FormatReader.apply(config.inputFormat, new CityCountryValueSampleParser())
               .load(spark, s"${config.inputBasePath}${config.inputFormat}/humidity.${config.inputFormat}") // map to [dateTime, city, country, value]
@@ -77,7 +81,7 @@ object Main {
               .load(spark, s"${config.inputBasePath}${config.inputFormat}/pressure.${config.inputFormat}") // [datetime, city, value]
               .map(item => (item.city, (item.datetime, item.value))) //map to (city, (datetime, value))
               .join(attributesInput) // join them
-              .map({ case (city, ((datetime, value), (country, offset))) => CityCountryValueSample.From(DateUtils.reformatWithTimezone(datetime, offset), city, country, value) }) // map to [dateTime+offset, city, country, value]
+              .map({ case (city, ((datetime, value), (country, offset))) => CityCountryValueSample.From(datetime, offset, city, country, value) }) // map to [dateTime+offset, city, country, value]
           else
             FormatReader.apply(config.inputFormat, new CityCountryValueSampleParser())
               .load(spark, s"${config.inputBasePath}${config.inputFormat}/pressure.${config.inputFormat}") // map to [dateTime, city, country, value]

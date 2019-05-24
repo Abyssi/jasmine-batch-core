@@ -44,6 +44,10 @@ class BoundedPriorityQueue[A](maxSize: Int)(implicit ord: Ordering[A])
 
   override def size: Int = underlying.size
 
+  override def clear() {
+    underlying.clear()
+  }
+
   private def maybeReplaceLowest(a: A): Boolean = {
     val head = underlying.peek()
     if (head != null && ord.gt(a, head)) {
@@ -52,9 +56,5 @@ class BoundedPriorityQueue[A](maxSize: Int)(implicit ord: Ordering[A])
     } else {
       false
     }
-  }
-
-  override def clear() {
-    underlying.clear()
   }
 }

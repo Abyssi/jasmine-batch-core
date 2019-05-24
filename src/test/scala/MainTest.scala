@@ -9,7 +9,7 @@ class MainTest extends FunSuite {
     val conf = new SparkConf().setMaster("local").setAppName("Main Test")
     val spark = new SparkContext(conf)
 
-    val samples: List[CityValueSample] = List(new CityValueSample(DateUtils.parseCalendar("2012-10-01 13:00:00"), "Rome", 100))
+    val samples: List[CityValueSample] = List(new CityValueSample(DateUtils.parseCalendar("2012-10-01 13:00:00", "America/New_York"), "New York", 100))
     val rdd = spark.parallelize(samples)
     rdd.foreach(println)
   }
